@@ -74,7 +74,6 @@ def intro_sequence():
     return answers['rule']
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     rule = intro_sequence()
     category = choice_dict[rule]

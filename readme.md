@@ -45,8 +45,8 @@ Single Device Modes:
     1. Disable smart cameras
 3. DING DONG  __***__
     1. Disable smart doorbells
-4. LOCKED OUT  __***__
-    1. Disable smart locks
+4. LOCKED OUT 
+    1. Disable smart locks (currently only MyQ garage door, please submit data.)
 5. CONTAINMENT BREACH  __***__
     1. Disable smart security systems
 6. TIMMY  __***__

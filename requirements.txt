@@ -1,0 +1,8 @@
+# C:\Users\Cats\PycharmProjects\blackout\main.py: 1
+PyInquirer == 1.0.3
+
+# C:\Users\Cats\PycharmProjects\blackout\sources\blackout.py: 1
+python_nmap == 0.6.1
+
+# C:\Users\Cats\PycharmProjects\blackout\sources\blackout.py: 2
+scapy_python3 == 0.26

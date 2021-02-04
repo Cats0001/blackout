@@ -65,7 +65,19 @@ categories = {
         }
     },
     'LOCK': {
-        'devices': {}
+        'devices': {
+            'Chamberlain MYQ': Device(
+                vendor='The Chamberlain Group',
+                services={
+                    'tcp': {
+
+                    },
+                    'udp': {
+
+                    }
+                }
+            )
+        }
     },
     'SECURITY': {
             'devices': {}
